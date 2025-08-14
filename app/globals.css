@@ -1,0 +1,217 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  position: relative;
+  width: 100%;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Optimize for mobile devices */
+@media (max-width: 768px) {
+  html, body {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Improve performance for animations */
+  .framer-motion-overflow-fix {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6366F1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #22D3EE;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Account for fixed navbar */
+}
+
+/* Enhanced smooth scrolling for better performance */
+html, body {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+  scroll-snap-type: y proximity; /* Enable scroll snapping */
+  overscroll-behavior: smooth;
+}
+
+/* Smooth scroll snap points */
+.scroll-snap-start {
+  scroll-snap-align: start;
+}
+
+.scroll-snap-center {
+  scroll-snap-align: center;
+}
+
+.scroll-snap-end {
+  scroll-snap-align: end;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  html, body {
+    scroll-behavior: auto;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Enhanced mobile scrolling */
+@media (max-width: 768px) {
+  html, body {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    scroll-padding-top: 80px; /* Smaller offset for mobile */
+  }
+  
+  /* Improve touch scrolling on mobile */
+  .touch-scroll {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+  }
+}
+
+/* Smooth scroll for specific sections */
+.section-scroll {
+  scroll-margin-top: 100px;
+  scroll-behavior: smooth;
+}
+
+/* Enhanced scrollbar for better UX */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(241, 245, 249, 0.8);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #6366F1, #22D3EE);
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #4F46E5, #06B6D4);
+  transform: scale(1.1);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Smooth scroll for specific elements */
+.smooth-scroll {
+  scroll-behavior: smooth;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Prevent scroll chaining */
+.scroll-container {
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+}
+
+/* App container styles */
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+/* Reduce animation complexity on mobile */
+@media (max-width: 768px) {
+  .motion-reduce {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Advanced Hero Section Animations */
+@keyframes gradient-x {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-x {
+  background-size: 300% 300%;
+  animation: gradient-x 3s ease infinite;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Pulse glow effect */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(99, 102, 241, 0.6);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+} 

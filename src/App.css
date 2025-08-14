@@ -3,6 +3,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
 /* Custom scrollbar */
@@ -21,11 +22,27 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #22D3EE;
-  }
+}
 
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+}
+
+/* Mobile optimization */
+body {
+  -webkit-overflow-scrolling: touch; /* Improve iOS scrolling */
+  overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+/* Reduce animation complexity on mobile */
+@media (max-width: 768px) {
+  .motion-reduce {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+}
 
 

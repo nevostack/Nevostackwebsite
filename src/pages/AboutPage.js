@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import Testimonials from '../components/Testimonials';
+import WhyChooseUs from '../components/Testimonials';
 
 const teamMembers = [
   {
@@ -236,7 +236,7 @@ Whether you're an early-stage founder or an established brand, we bring clean co
         </div>
       </section> */}
       
-      <Testimonials />
+      <WhyChooseUs />
     </div>
   );
 };

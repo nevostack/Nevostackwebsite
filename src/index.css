@@ -11,9 +11,27 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  position: relative;
+  width: 100%;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Optimize for mobile devices */
+@media (max-width: 768px) {
+  html, body {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Improve performance for animations */
+  .framer-motion-overflow-fix {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
 }

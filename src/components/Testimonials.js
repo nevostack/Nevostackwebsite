@@ -1,122 +1,184 @@
-import React, { useState } from 'react';
+'use client';
+
+import React from 'react';
 import { motion } from 'framer-motion';
 
-const testimonials = [
+const features = [
   {
     id: 1,
-    content: "NevoStack transformed our online presence completely. Their team delivered a website that not only looks stunning but also performs exceptionally well. Our conversion rate has increased by 40% since launch!",
-    author: "Sarah Johnson",
-    position: "CEO, TechStart Inc.",
-    avatar: "https://randomuser.me/api/portraits/women/32.jpg"
+    icon: "🚀",
+    title: "Lightning Fast Development",
+    description: "We deliver projects 40% faster than industry average with our streamlined development process and cutting-edge tools.",
+    color: "from-blue-500 to-cyan-500"
   },
   {
     id: 2,
-    content: "Working with NevoStack was a game-changer for our e-commerce business. They understood our requirements perfectly and delivered a solution that exceeded our expectations. Highly recommended!",
-    author: "Michael Chen",
-    position: "Founder, EcoShop",
-    avatar: "https://randomuser.me/api/portraits/men/46.jpg"
+    icon: "💎",
+    title: "Premium Quality Code",
+    description: "Clean, scalable, and maintainable code that follows industry best practices and modern development standards.",
+    color: "from-purple-500 to-pink-500"
   },
   {
     id: 3,
-    content: "The mobile app developed by NevoStack has revolutionized how we interact with our customers. The team was professional, responsive, and delivered the project on time and within budget.",
-    author: "Emily Rodriguez",
-    position: "Marketing Director, FoodDelivery",
-    avatar: "https://randomuser.me/api/portraits/women/65.jpg"
+    icon: "🎯",
+    title: "Results-Driven Approach",
+    description: "Every project is built with clear business objectives in mind, ensuring measurable ROI and growth for your business.",
+    color: "from-green-500 to-emerald-500"
+  },
+  {
+    id: 4,
+    icon: "🛡️",
+    title: "24/7 Support & Maintenance",
+    description: "Round-the-clock technical support and proactive maintenance to keep your digital assets running smoothly.",
+    color: "from-orange-500 to-red-500"
+  },
+  {
+    id: 5,
+    icon: "⚡",
+    title: "Cutting-Edge Technology",
+    description: "We use the latest frameworks, tools, and technologies to build future-proof solutions that scale with your business.",
+    color: "from-indigo-500 to-purple-500"
+  },
+  {
+    id: 6,
+    icon: "🤝",
+    title: "Transparent Communication",
+    description: "Regular updates, clear timelines, and honest communication throughout the entire development process.",
+    color: "from-teal-500 to-blue-500"
   }
 ];
 
-const Testimonials = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
+const stats = [
+  { 
+    number: "50+", 
+    label: "Projects Delivered",
+    description: "Successfully completed projects across various industries",
+    icon: "📊"
+  },
+  { 
+    number: "98%", 
+    label: "Client Satisfaction",
+    description: "Exceptional feedback from our valued clients",
+    icon: "⭐"
+  },
+  { 
+    number: "24/7", 
+    label: "Support Available",
+    description: "Round-the-clock technical assistance",
+    icon: "🛠️"
+  },
+  { 
+    number: "40%", 
+    label: "Faster Delivery",
+    description: "Compared to industry standards",
+    icon: "⚡"
+  }
+];
 
-  const nextTestimonial = () => {
-    setActiveIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-  };
-
-  const prevTestimonial = () => {
-    setActiveIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
-  };
-
+const WhyChooseUs = () => {
   return (
-    <section className="py-12 bg-gradient-to-r from-primary to-secondary">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <motion.h2 
-            className="text-3xl font-extrabold text-white sm:text-4xl"
+    <section className="py-20 bg-gradient-to-br from-primary via-primary to-secondary relative overflow-hidden">
+      {/* Enhanced Background decorative elements */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-10 right-10 w-40 h-40 bg-accent rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-secondary rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+        <div className="absolute top-1/4 right-1/4 w-24 h-24 bg-white rounded-full blur-2xl animate-pulse" style={{animationDelay: '0.5s'}}></div>
+        <div className="absolute bottom-1/4 left-1/4 w-20 h-20 bg-accent rounded-full blur-2xl animate-pulse" style={{animationDelay: '1.5s'}}></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Enhanced Header Section */}
+        <div className="text-center mb-20">
+          <motion.div 
+            className="inline-flex items-center px-6 py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-8"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            What Our Clients Say
-          </motion.h2>
-          <motion.p 
-            className="mt-3 max-w-2xl mx-auto text-xl text-gray-200 sm:mt-4"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            <span className="w-3 h-3 bg-secondary rounded-full mr-3 animate-pulse"></span>
+            <span className="text-sm font-semibold text-white tracking-wide">Why Choose NevoStack</span>
+          </motion.div>
+          
+          <motion.h2 
+            className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Don't just take our word for it - hear from some of our satisfied clients.
+            We Don't Just Build
+            <span className="block bg-gradient-to-r from-secondary via-accent to-secondary bg-clip-text text-transparent mt-2">
+              We Transform
+            </span>
+          </motion.h2>
+          
+          <motion.p 
+            className="text-xl md:text-2xl text-gray-200 max-w-4xl mx-auto leading-relaxed font-light"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            Experience the difference of working with a team that combines 
+            <span className="text-secondary font-semibold"> technical excellence</span>, 
+            <span className="text-accent font-semibold"> creative innovation</span>, and 
+            <span className="text-white font-semibold"> unwavering commitment</span> to your success.
           </motion.p>
         </div>
 
-        <div className="mt-10">
-          <div className="relative max-w-3xl mx-auto">
+        {/* Stats Section */}
+        <motion.div 
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          {stats.map((stat, index) => (
+            <div key={index} className="text-center">
+              <div className="text-3xl md:text-4xl font-bold text-white mb-2">{stat.number}</div>
+              <div className="text-sm text-gray-300">{stat.label}</div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+          {features.map((feature, index) => (
             <motion.div 
-              className="bg-white rounded-lg shadow-xl p-8"
-              key={activeIndex}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.5 }}
+              key={feature.id}
+              className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
             >
-              <div className="flex items-center mb-6">
-                <img 
-                  className="h-12 w-12 rounded-full mr-4"
-                  src={testimonials[activeIndex].avatar}
-                  alt={testimonials[activeIndex].author}
-                />
-                <div>
-                  <h3 className="text-lg font-medium text-primary">{testimonials[activeIndex].author}</h3>
-                  <p className="text-gray-500">{testimonials[activeIndex].position}</p>
+              <div className="relative z-10">
+                {/* Icon */}
+                <div className="text-5xl mb-6">
+                  {feature.icon}
                 </div>
-              </div>
-              <blockquote>
-                <p className="text-xl text-gray-600 italic">"{testimonials[activeIndex].content}"</p>
-              </blockquote>
-              <div className="flex justify-between mt-8">
-                <button 
-                  onClick={prevTestimonial}
-                  className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                </button>
-                <div className="flex space-x-2">
-                  {testimonials.map((_, index) => (
-                    <button 
-                      key={index}
-                      onClick={() => setActiveIndex(index)}
-                      className={`h-3 w-3 rounded-full ${index === activeIndex ? 'bg-secondary' : 'bg-gray-300'}`}
-                    />
-                  ))}
-                </div>
-                <button 
-                  onClick={nextTestimonial}
-                  className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+                
+                {/* Title */}
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-4">
+                  {feature.title}
+                </h3>
+                
+                {/* Description */}
+                <p className="text-gray-300 leading-relaxed text-sm md:text-base">
+                  {feature.description}
+                </p>
               </div>
             </motion.div>
-          </div>
+          ))}
         </div>
+
+
       </div>
     </section>
   );
 };
 
-export default Testimonials; 
+export default WhyChooseUs; 

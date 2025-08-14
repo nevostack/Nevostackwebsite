@@ -1,5 +1,8 @@
+'use client';
+
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { submitToGoogleSheets } from '../../app/utils/googleSheets';
 
 // Add keyframe animations for the blob effect
 const styles = `
@@ -38,6 +41,81 @@ if (typeof document !== 'undefined') {
   document.head.appendChild(styleSheet);
 }
 
+// Coming Soon Modal Component
+const ComingSoonModal = ({ isOpen, onClose }) => {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+        >
+          <motion.div 
+            className="bg-white rounded-2xl overflow-hidden max-w-md w-full"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            transition={{ type: "spring", damping: 25 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="relative bg-gradient-to-br from-primary to-secondary p-1">
+              <div className="bg-white rounded-xl p-8">
+                <div className="text-center">
+                  <div className="mb-4 flex justify-center">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary/10 text-secondary">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-2xl font-bold text-primary mb-2">Coming Soon!</h3>
+                  <p className="text-gray-600 mb-6">
+                    We're working hard to bring you our Free Assessment tool. Please check back soon or contact us directly for a personalized consultation.
+                  </p>
+                  
+                  <div className="space-y-3">
+                    <button
+                      onClick={onClose}
+                      className="w-full py-3 px-6 rounded-lg bg-secondary text-white font-medium 
+                               hover:bg-secondary/90 transform hover:scale-[1.02] transition-all duration-300
+                               focus:outline-none focus:ring-2 focus:ring-secondary/50"
+                    >
+                      Close
+                    </button>
+                    
+                    <a
+                      href="/contact"
+                      className="block w-full py-3 px-6 rounded-lg border border-secondary text-secondary font-medium 
+                              hover:bg-secondary/5 transition-all duration-300
+                              focus:outline-none focus:ring-2 focus:ring-secondary/50 text-center"
+                    >
+                      Contact Us
+                    </a>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Close button */}
+              <button 
+                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/80 flex items-center justify-center text-primary hover:bg-white transition-colors"
+                onClick={onClose}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
 const servicesList = [
   {
     id: 1,
@@ -74,12 +152,12 @@ const servicesList = [
   },
   {
     id: 4,
-    title: "UI/UX Design",
-    description: "User-centered design with beautiful interfaces and seamless user experiences.",
-    features: ["User Research", "Wireframing", "Prototyping", "Usability Testing"],
+    title: "AI AUTOMATION",
+    description: "Intelligent automation solutions powered by artificial intelligence to streamline your business processes.",
+    features: ["Process Automation", "AI Integration", "Smart Workflows", "Data Analytics"],
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
       </svg>
     )
   },
@@ -110,6 +188,68 @@ const servicesList = [
 
 const Services = () => {
   const [activeService, setActiveService] = useState(null);
+  const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
+  const [assessmentFormData, setAssessmentFormData] = useState({
+    businessName: '',
+    email: '',
+    websiteUrl: '',
+    phone: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState('');
+
+  const handleAssessmentClick = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitMessage('');
+
+    try {
+      // Debug: Log raw form data from UI
+      console.log('Assessment form data (raw):', assessmentFormData);
+      // Submit to Google Sheets
+      const result = await submitToGoogleSheets(assessmentFormData, 'assessment');
+      // Debug: Log API result
+      console.log('Google Sheets submission result:', result);
+      
+      if (result.success) {
+        setSubmitMessage('Thank you! Your assessment request has been submitted successfully.');
+        
+        // Reset form
+        setAssessmentFormData({
+          businessName: '',
+          email: '',
+          websiteUrl: '',
+          phone: ''
+        });
+        
+        // Show success message for 3 seconds
+        setTimeout(() => {
+          setSubmitMessage('');
+        }, 3000);
+      } else {
+        setSubmitMessage(result.message || 'Failed to submit assessment request. Please try again.');
+      }
+    } catch (error) {
+      console.error('Assessment submission error:', error);
+      setSubmitMessage('An error occurred. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setAssessmentFormData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const closeComingSoon = () => {
+    setIsComingSoonOpen(false);
+    // Restore body scrolling
+    document.body.style.overflow = 'auto';
+  };
 
   return (
     <section className="py-16 relative overflow-hidden" id="services">
@@ -213,7 +353,7 @@ const Services = () => {
         
         {/* Free Assessment Section */}
         <motion.div
-          className="mt-24 relative"
+          className="mt-16 md:mt-24 relative"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -222,9 +362,9 @@ const Services = () => {
           <div className="relative bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
             <div className="absolute top-0 left-0 w-full h-1 bg-secondary"></div>
             
-            <div className="grid md:grid-cols-2 gap-8 p-8 md:p-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 p-6 md:p-12">
               {/* Left Column - Content */}
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
                 <div>
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -232,13 +372,13 @@ const Services = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
                   >
-                    <span className="inline-block px-4 py-1 rounded-full bg-secondary/10 text-secondary font-medium mb-4 text-sm">
+                    <span className="inline-block px-3 py-1 rounded-full bg-secondary/10 text-secondary font-medium mb-3 md:mb-4 text-xs md:text-sm">
                       Free Digital Assessment
                     </span>
                   </motion.div>
                   
                   <motion.h3
-                    className="text-3xl md:text-4xl font-bold text-gray-900 mb-4"
+                    className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 md:mb-4"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -248,7 +388,7 @@ const Services = () => {
                   </motion.h3>
                   
                   <motion.p
-                    className="text-gray-600 text-lg mb-6"
+                    className="text-base md:text-lg text-gray-600 mb-4 md:mb-6"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -260,7 +400,7 @@ const Services = () => {
 
                 {/* Benefits List */}
                 <motion.div
-                  className="space-y-4"
+                  className="space-y-3 md:space-y-4"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -278,14 +418,14 @@ const Services = () => {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                       </div>
-                      <span className="text-gray-600">{benefit}</span>
+                      <span className="text-sm md:text-base text-gray-600">{benefit}</span>
                     </div>
                   ))}
                 </motion.div>
 
                 {/* Stats */}
                 <motion.div
-                  className="grid grid-cols-2 gap-6 py-6"
+                  className="grid grid-cols-2 gap-4 md:gap-6 py-4 md:py-6"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -295,9 +435,9 @@ const Services = () => {
                     { value: "500+", label: "Businesses Analyzed" },
                     { value: "95%", label: "Success Rate" }
                   ].map((stat, index) => (
-                    <div key={index} className="text-center bg-gray-50 rounded-lg p-4">
-                      <div className="text-3xl font-bold text-secondary mb-1">{stat.value}</div>
-                      <div className="text-sm text-gray-600">{stat.label}</div>
+                    <div key={index} className="text-center bg-gray-50 rounded-lg p-3 md:p-4">
+                      <div className="text-xl md:text-3xl font-bold text-secondary mb-1">{stat.value}</div>
+                      <div className="text-xs md:text-sm text-gray-600">{stat.label}</div>
                     </div>
                   ))}
                 </motion.div>
@@ -306,64 +446,91 @@ const Services = () => {
               {/* Right Column - Form */}
               <div className="relative">
                 <motion.div
-                  className="bg-white rounded-xl p-6 md:p-8 shadow-lg border border-gray-100"
+                  className="bg-white rounded-xl p-5 md:p-8 shadow-lg border border-gray-100"
                   initial={{ opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                  <h4 className="text-xl font-semibold text-gray-900 mb-6">Start Your Free Assessment</h4>
+                  <h4 className="text-lg md:text-xl font-semibold text-gray-900 mb-4 md:mb-6">Start Your Free Assessment</h4>
                   
-                  <form className="space-y-4">
+                  {submitMessage && (
+                    <div className={`px-4 py-3 rounded-lg mb-4 text-sm ${
+                      submitMessage.includes('Thank you') 
+                        ? 'bg-green-100 border border-green-400 text-green-700'
+                        : 'bg-red-100 border border-red-400 text-red-700'
+                    }`}>
+                      <p className="font-medium">{submitMessage}</p>
+                    </div>
+                  )}
+                  
+                  <form className="space-y-3 md:space-y-4" onSubmit={handleAssessmentClick}>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Business Name</label>
+                      <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">Business Name</label>
                       <input
                         type="text"
-                        className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-colors"
+                        name="businessName"
+                        value={assessmentFormData.businessName}
+                        onChange={handleFormChange}
+                        className="w-full px-3 md:px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-colors text-sm md:text-base"
                         placeholder="Your business name"
+                        required
                       />
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                      <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">Email</label>
                       <input
                         type="email"
-                        className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-colors"
+                        name="email"
+                        value={assessmentFormData.email}
+                        onChange={handleFormChange}
+                        className="w-full px-3 md:px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-colors text-sm md:text-base"
                         placeholder="your@email.com"
+                        required
                       />
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Website URL</label>
+                      <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">Website URL</label>
                       <input
                         type="url"
-                        className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-colors"
+                        name="websiteUrl"
+                        value={assessmentFormData.websiteUrl}
+                        onChange={handleFormChange}
+                        className="w-full px-3 md:px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-colors text-sm md:text-base"
                         placeholder="https://"
                       />
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Business Goals</label>
-                      <select className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-colors">
-                        <option value="">Select your primary goal</option>
-                        <option value="increase_sales">Increase Sales</option>
-                        <option value="brand_awareness">Brand Awareness</option>
-                        <option value="lead_generation">Lead Generation</option>
-                        <option value="market_expansion">Market Expansion</option>
-                      </select>
+                      <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">Phone</label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={assessmentFormData.phone}
+                        onChange={handleFormChange}
+                        className="w-full px-3 md:px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-colors text-sm md:text-base"
+                        placeholder="Your phone number"
+                      />
                     </div>
 
                     <button
                       type="submit"
-                      className="w-full py-3 px-6 rounded-lg bg-secondary text-white font-medium 
-                               hover:bg-secondary/90 transform hover:scale-[1.02] transition-all duration-300
-                               focus:outline-none focus:ring-2 focus:ring-secondary/50 shadow-md"
+                      disabled={isSubmitting}
+                      className={`w-full py-2.5 md:py-3 px-4 md:px-6 rounded-lg bg-secondary text-white font-medium 
+                               transform transition-all duration-300
+                               focus:outline-none focus:ring-2 focus:ring-secondary/50 shadow-md text-sm md:text-base mt-2 ${
+                                 isSubmitting 
+                                   ? 'opacity-50 cursor-not-allowed' 
+                                   : 'hover:bg-secondary/90 hover:scale-[1.02]'
+                               }`}
                     >
-                      Get Free Assessment
+                      {isSubmitting ? 'Submitting...' : 'Get Free Assessment'}
                     </button>
                   </form>
 
-                  <p className="text-sm text-gray-500 mt-4 text-center">
+                  <p className="text-xs md:text-sm text-gray-500 mt-3 md:mt-4 text-center">
                     No credit card required. Get your analysis within 48 hours.
                   </p>
                 </motion.div>
@@ -375,6 +542,12 @@ const Services = () => {
         {/* CTA Section */}
  
       </div>
+
+      {/* Coming Soon Modal */}
+      <ComingSoonModal 
+        isOpen={isComingSoonOpen}
+        onClose={closeComingSoon}
+      />
     </section>
   );
 };

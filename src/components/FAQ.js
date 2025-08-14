@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -6,7 +8,7 @@ const faqData = [
     id: 1,
     category: 'services',
     question: 'What services does NevoStack Agency offer?',
-    answer: 'NevoStack Agency offers a comprehensive range of digital services including web development, mobile app development, UI/UX design, AI integration, digital marketing, and custom software solutions. Our team specializes in creating cutting-edge solutions tailored to your specific business needs.'
+    answer: 'NevoStack Agency offers a comprehensive range of digital services including web development, mobile app development, AI automation, AI integration, digital marketing, and custom software solutions. Our team specializes in creating cutting-edge solutions tailored to your specific business needs.'
   },
   {
     id: 2,
@@ -42,7 +44,7 @@ const faqData = [
     id: 7,
     category: 'services',
     question: 'Do you handle both design and development?',
-    answer: 'Yes, we provide end-to-end services covering both design and development. Our UI/UX designers work closely with developers to ensure seamless implementation. This integrated approach ensures design integrity is maintained throughout the development process, resulting in visually stunning and highly functional digital products.'
+    answer: 'Yes, we provide end-to-end services covering both AI automation and development. Our AI specialists work closely with developers to ensure seamless implementation. This integrated approach ensures automation integrity is maintained throughout the development process, resulting in optimaly stunning and highly functional digital products.'
   },
   {
     id: 8,

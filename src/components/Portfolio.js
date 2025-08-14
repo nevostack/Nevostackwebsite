@@ -1,4 +1,6 @@
-import React, { useState, useRef } from 'react';
+'use client';
+
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const projects = [
@@ -37,33 +39,34 @@ const projects = [
   },
   {
     id: 4,
-    title: "Food Delivery Dashboard",
-    category: "UI/UX Design",
-    image: "https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    description: "An intuitive dashboard for restaurant owners to manage food delivery orders.",
-    technologies: ["Figma", "Adobe XD", "Sketch", "InVision"],
-    client: "QuickBite",
+    title: "AI-Powered Process Automation",
+    category: "AI Automation",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+    description: "Intelligent automation system that streamlines business processes using AI and machine learning.",
+    technologies: ["Python", "TensorFlow", "OpenAI API", "Docker"],
+    client: "TechFlow Solutions",
     year: "2023",
     link: "#"
   },
   {
     id: 5,
-    title: "Fitness Tracker",
+    title: "Astrology & Horoscope App",
     category: "Mobile App",
-    image: "https://images.unsplash.com/photo-1576678927484-cc907957088c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    description: "A fitness tracking app with workout plans and progress monitoring.",
-    technologies: ["Flutter", "Firebase", "Health API", "Redux"],
-    client: "FitLife",
+    image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+    description: "A comprehensive astrology app with daily horoscopes, birth charts, and cosmic insights.",
+    technologies: ["React Native", "Node.js", "MongoDB", "Push Notifications"],
+    client: "Cosmic Insights",
+    year: "2023",
     link: "#"
   },
   {
     id: 6,
-    title: "Real Estate Platform",
+    title: "Doctor Appointment System",
     category: "Web Development",
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    description: "A property listing platform with advanced search and filtering capabilities.",
-    technologies: ["Vue.js", "Node.js", "PostgreSQL", "Mapbox"],
-    client: "HomeSeeker",
+    image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    description: "A comprehensive healthcare platform for doctor appointments, patient management, and telemedicine.",
+    technologies: ["React", "Node.js", "PostgreSQL", "WebRTC"],
+    client: "HealthCare Plus",
     year: "2023",
     link: "#"
   }
@@ -73,8 +76,25 @@ const Portfolio = () => {
   const [filter, setFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const categories = ['All', 'Web Development', 'Mobile App', 'UI/UX Design'];
+  const [isMobile, setIsMobile] = useState(false);
+  const categories = ['All', 'Web Development', 'Mobile App', 'AI Automation'];
   const containerRef = useRef(null);
+  
+  // Check if the device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Initial check
+    checkMobile();
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   
   const filteredProjects = filter === 'All' 
     ? projects 
@@ -152,7 +172,7 @@ const Portfolio = () => {
           </motion.div>
         </div>
         
-        {/* Filter buttons */}
+        {/* Filter buttons - Improved for mobile */}
         <motion.div 
           className="mb-12 flex justify-center"
           initial={{ opacity: 0, y: 20 }}
@@ -160,21 +180,50 @@ const Portfolio = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <div className="inline-flex p-1 bg-white/80 backdrop-blur-sm rounded-full shadow-lg">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setFilter(category)}
-                className={`${
-                  filter === category
-                    ? 'bg-gradient-to-r from-secondary to-accent text-white shadow-md'
-                    : 'bg-transparent text-gray-700 hover:bg-gray-100'
-                } relative inline-flex items-center px-6 py-2 text-sm font-medium rounded-full transition-all duration-300`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
+          {isMobile ? (
+            // Mobile view - Select dropdown
+            <div className="w-full max-w-xs mx-auto">
+              <div className="relative">
+                <select
+                  value={filter}
+                  onChange={(e) => setFilter(e.target.value)}
+                  className="block w-full appearance-none bg-white/80 backdrop-blur-sm rounded-full shadow-lg border-0 py-3 px-6 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-opacity-50 cursor-pointer"
+                >
+                  {categories.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-secondary">
+                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      fillRule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          ) : (
+            // Desktop view - Button group
+            <div className="inline-flex p-1 bg-white/80 backdrop-blur-sm rounded-full shadow-lg">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setFilter(category)}
+                  className={`${
+                    filter === category
+                      ? 'bg-gradient-to-r from-secondary to-accent text-white shadow-md'
+                      : 'bg-transparent text-gray-700 hover:bg-gray-100'
+                  } relative inline-flex items-center px-6 py-2 text-sm font-medium rounded-full transition-all duration-300`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          )}
         </motion.div>
 
         {/* Projects grid */}
@@ -296,7 +345,7 @@ const Portfolio = () => {
                   alt={selectedProject.title} 
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent flex items-end p-6">
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent flex items=end p-6">
                   <div>
                     <span className="inline-block bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-white mb-2">
                       {selectedProject.category}
@@ -354,24 +403,25 @@ const Portfolio = () => {
                           <p className="text-sm text-gray-500">Category</p>
                           <p className="font-medium">{selectedProject.category}</p>
                         </div>
-                        
-
                       </div>
                     </div>
                     
                     <div className="mt-6">
-                      <a 
-                        href={selectedProject.link} 
-                        className="inline-flex items-center justify-center w-full px-6 py-3 bg-secondary text-white font-medium rounded-lg hover:bg-accent transition-colors duration-300"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Visit Project
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                          <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
-                          <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
-                        </svg>
-                      </a>
+                      {/* Temporarily hidden until project links are ready */}
+                      {false && (
+                        <a 
+                          href={selectedProject.link} 
+                          className="inline-flex items-center justify-center w-full px-6 py-3 bg-secondary text-white font-medium rounded-lg hover:bg-accent transition-colors duration-300"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Visit Project
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                            <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+                          </svg>
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -385,3 +435,5 @@ const Portfolio = () => {
 };
 
 export default Portfolio;
+
+

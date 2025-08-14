@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,7 +12,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <Link to="/" className="flex items-center">
+              <Link href="/" className="flex items-center">
                 <span className="text-2xl font-bold bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">NevoStack</span>
               </Link>
             </div>
@@ -18,11 +20,11 @@ const Navbar = () => {
           
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
-              <Link to="/" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-secondary hover:text-white transition-all">Home</Link>
-              <Link to="/services" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-secondary hover:text-white transition-all">Services</Link>
-              <Link to="/portfolio" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-secondary hover:text-white transition-all">Portfolio</Link>
-              <Link to="/about" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-secondary hover:text-white transition-all">About</Link>
-              <Link to="/contact" className="px-3 py-2 rounded-md text-sm font-medium bg-secondary hover:bg-accent transition-all">Contact Us</Link>
+              <Link href="/" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-secondary hover:text-white transition-all">Home</Link>
+              <Link href="/services" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-secondary hover:text-white transition-all">Services</Link>
+              <Link href="/portfolio" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-secondary hover:text-white transition-all">Portfolio</Link>
+              <Link href="/about" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-secondary hover:text-white transition-all">About</Link>
+              <Link href="/contact" className="px-3 py-2 rounded-md text-sm font-medium bg-secondary hover:bg-accent transition-all">Contact Us</Link>
             </div>
           </div>
           
@@ -44,11 +46,11 @@ const Navbar = () => {
       
       <div className={`${isOpen ? 'block' : 'hidden'} md:hidden`}>
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <Link to="/" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-secondary hover:text-white">Home</Link>
-          <Link to="/services" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-secondary hover:text-white">Services</Link>
-          <Link to="/portfolio" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-secondary hover:text-white">Portfolio</Link>
-          <Link to="/about" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-secondary hover:text-white">About</Link>
-          <Link to="/contact" className="block px-3 py-2 rounded-md text-base font-medium bg-secondary hover:bg-accent">Contact Us</Link>
+          <Link href="/" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-secondary hover:text-white">Home</Link>
+          <Link href="/services" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-secondary hover:text-white">Services</Link>
+          <Link href="/portfolio" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-secondary hover:text-white">Portfolio</Link>
+          <Link href="/about" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-secondary hover:text-white">About</Link>
+          <Link href="/contact" className="block px-3 py-2 rounded-md text-base font-medium bg-secondary hover:bg-accent">Contact Us</Link>
         </div>
       </div>
     </nav>
