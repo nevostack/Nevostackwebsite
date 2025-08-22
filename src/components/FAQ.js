@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
+import Link from 'next/link';
 const faqData = [
   {
     id: 1,
@@ -263,15 +263,14 @@ const FAQ = () => {
           <p className="text-lg text-gray-600 mb-6">
             Still have questions? We're here to help!
           </p>
-          <a 
-            href="/contact" 
+          <Link href="/services" 
             className="inline-flex items-center px-8 py-4 rounded-lg bg-secondary hover:bg-secondary/90 text-white font-medium transition-all duration-300 transform hover:scale-105"
           >
             <span>Contact Us</span>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
-          </a>
+          </Link>
         </motion.div>
       </div>
     </section>

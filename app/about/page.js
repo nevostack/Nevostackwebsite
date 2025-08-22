@@ -5,20 +5,6 @@ export const metadata = {
   title: 'About Us',
   description: 'Learn about NevoStack, the team behind lightning-fast websites, sleek mobile apps, high-converting e-commerce platforms, AI automation solutions, and effective SEO strategies.',
   keywords: ['about NevoStack', 'web development team', 'mobile app developers', 'e-commerce experts', 'AI automation experts', 'SEO specialists', 'company history'],
-  alternates: {
-    canonical: '/about',
-  },
-  openGraph: {
-    url: 'https://nevostack.com/about',
-    title: 'About NevoStack',
-    images: [
-      { url: 'https://nevostack.com/nevostacklogo.jpg', alt: 'About NevoStack' },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    images: ['https://nevostack.com/nevostacklogo.jpg'],
-  },
 };
 
 const teamMembers = [

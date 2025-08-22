@@ -25,6 +25,11 @@ export const metadata = {
   description: 'Unlock digital excellence with Nevostack. We build lightning-fast websites, sleek mobile apps, high-converting e-commerce platforms, AI automation solutions, and SEO strategies that drive real growth',
   keywords: ['custom web development', 'responsive design', 'mobile app development', 'cross-platform apps', 'native Android iOS', 'e-commerce development', 'secure payment gateway', 'AI automation', 'process automation', 'SEO optimization', 'keyword research', 'link building', 'performance boost'],
   metadataBase: new URL('https://nevostack.com'),
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/logo192.png',
+  },
   alternates: {
     canonical: '/',
   },
@@ -68,7 +73,7 @@ export default function RootLayout({ children }) {
     ],
     contactPoint: {
       '@type': 'ContactPoint',
-      telephone: '+1-123-456-7890',
+      telephone: "+91 76079 85685",
       contactType: 'customer service',
       email: 'info@nevostack.com'
     },
