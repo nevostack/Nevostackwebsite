@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "2.0.18",
+    "@netlify/plugin-nextjs": "^5.12.1",
     "@react-three/drei": "9.92.7",
     "@react-three/fiber": "8.15.12",
     "@testing-library/jest-dom": "5.17.0",
